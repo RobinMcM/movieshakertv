@@ -13,8 +13,8 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Serve static files from the Vue app
-// Path resolution: from server/dist/index.js, go up to root, then into client/dist
-const clientDistPath = path.resolve(process.cwd(), "client/dist");
+// Path resolution: from server/dist/index.js, go up two levels to root, then into client/dist
+const clientDistPath = path.resolve(__dirname, "../../client/dist");
 console.log("Serving static files from:", clientDistPath);
 app.use(express.static(clientDistPath));
 
@@ -43,7 +43,8 @@ setupAuth(app);
 app.use("/api", router);
 
 // The "catchall" handler: for any request that doesn't match an API route, send back Vue's index.html file.
-app.get("*", (req, res) => {
+// Express 5 requires "/*" instead of "*"
+app.get("/*", (req, res) => {
   // Don't serve index.html for API routes
   if (req.path.startsWith("/api")) {
     return res.status(404).json({ error: "API route not found" });
