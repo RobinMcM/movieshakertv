@@ -8,7 +8,7 @@ dotenv.config();
 
 async function seedDummyUser() {
   try {
-    const email = "ms";
+    const email = "ms@mail.com";
     const password = "movie";
     
     // Hash the password

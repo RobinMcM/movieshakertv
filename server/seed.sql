@@ -1,5 +1,5 @@
 -- Seed script to create dummy user account
--- Email: ms
+-- Email: ms@mail.com
 -- Password: movie
 -- Role: admin
 
@@ -9,7 +9,7 @@
 -- If the user already exists, this will fail with a unique constraint error (which is fine)
 INSERT INTO users (email, password_hash, role)
 VALUES (
-  'ms',
+  'ms@mail.com',
   '$2b$10$CC1jPkwNJahat4yPWO.1xecv4ysxSDi5SwEcJVAhIRzjf.We2xbN2', -- bcrypt hash of "movie"
   'admin'
 )
