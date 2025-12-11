@@ -7,6 +7,8 @@ import { useProjectStore } from '../stores/project'
 import { FileText, Video, File, CheckCircle, X, Calendar, Users, MapPin, UserCheck, DollarSign } from 'lucide-vue-next'
 import FileUpload from '../components/FileUpload.vue'
 import TextUpload from '../components/TextUpload.vue'
+import GanttChartHeader from '../components/GanttChartHeader.vue'
+import TimelineEventList from '../components/TimelineEventList.vue'
 
 const auth = useAuthStore()
 const router = useRouter()
@@ -32,6 +34,23 @@ const handleTextSaved = (type: string, text: string) => {
 
 const removeFile = (type: string) => {
   projectStore.setFile(type as any, null as any)
+}
+
+const handleTimelineEventAdd = (event: Omit<import('../stores/project').TimelineEvent, 'id'>) => {
+  projectStore.addTimelineEvent(event)
+}
+
+const handleTimelineEventUpdate = (id: number, updates: Partial<import('../stores/project').TimelineEvent>) => {
+  projectStore.updateTimelineEvent(id, updates)
+}
+
+const handleTimelineEventDelete = (id: number) => {
+  projectStore.deleteTimelineEvent(id)
+}
+
+const handleDateSelected = (date: string) => {
+  // Optional: Could auto-fill date in add form or highlight date
+  console.log('Date selected:', date)
 }
 </script>
 
@@ -359,14 +378,28 @@ const removeFile = (type: string) => {
         </div>
 
         <!-- Tab 2: Proposed Timeline -->
-        <div v-show="activeTab === 'timeline'" class="bg-cinema-gray p-6 rounded-lg border border-gray-800">
-          <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
-            <Calendar class="text-red-500 w-6 h-6" />
-            Proposed Timeline
-          </h3>
-          <p class="text-gray-400 mb-4">Timeline management coming soon...</p>
-          <div class="text-gray-500 text-sm">
-            This section will allow you to create and manage your production timeline with key dates and milestones.
+        <div v-show="activeTab === 'timeline'" class="space-y-6">
+          <div>
+            <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+              <Calendar class="text-red-500 w-6 h-6" />
+              Proposed Timeline
+            </h3>
+          </div>
+          
+          <!-- Gantt Chart Header -->
+          <GanttChartHeader 
+            :events="project.timelineEvents"
+            @date-selected="handleDateSelected"
+          />
+          
+          <!-- Timeline Event List -->
+          <div class="bg-cinema-gray p-6 rounded-lg border border-gray-800">
+            <TimelineEventList
+              :events="project.timelineEvents"
+              @add="handleTimelineEventAdd"
+              @update="handleTimelineEventUpdate"
+              @delete="handleTimelineEventDelete"
+            />
           </div>
         </div>
 

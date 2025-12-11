@@ -1,5 +1,13 @@
 import { defineStore } from 'pinia'
 
+export interface TimelineEvent {
+  id: number
+  date: string
+  title: string
+  comments: string
+  duration?: number
+}
+
 interface Project {
   id: number
   title: string
@@ -11,6 +19,7 @@ interface Project {
   elevatorPitch: string
   treatment: string | null
   trailer: string | null
+  timelineEvents: TimelineEvent[]
 }
 
 export const useProjectStore = defineStore('project', {
@@ -26,7 +35,8 @@ export const useProjectStore = defineStore('project', {
       script: null as string | null,
       elevatorPitch: '',
       treatment: null as string | null,
-      trailer: null as string | null
+      trailer: null as string | null,
+      timelineEvents: [] as TimelineEvent[]
     } as Project
   }),
   actions: {
@@ -40,6 +50,19 @@ export const useProjectStore = defineStore('project', {
     },
     setText(type: 'elevatorPitch', text: string) {
       this.currentProject[type] = text
+    },
+    addTimelineEvent(event: Omit<TimelineEvent, 'id'>) {
+      const newId = Math.max(0, ...this.currentProject.timelineEvents.map(e => e.id)) + 1
+      this.currentProject.timelineEvents.push({ ...event, id: newId })
+    },
+    updateTimelineEvent(id: number, updates: Partial<TimelineEvent>) {
+      const index = this.currentProject.timelineEvents.findIndex(e => e.id === id)
+      if (index !== -1) {
+        this.currentProject.timelineEvents[index] = { ...this.currentProject.timelineEvents[index], ...updates }
+      }
+    },
+    deleteTimelineEvent(id: number) {
+      this.currentProject.timelineEvents = this.currentProject.timelineEvents.filter(e => e.id !== id)
     }
   },
   getters: {
