@@ -37,7 +37,7 @@ const projectStore = useProjectStore()
     </section>
 
     <section class="mb-24">
-      <PitchDeckViewer :url="projectStore.currentProject.pitchDeck" />
+      <PitchDeckViewer :url="projectStore.currentProject.pitchDeck ?? undefined" />
       <div v-if="!projectStore.currentProject.pitchDeck" class="text-center text-gray-500 mt-8">
         <p>No pitch deck uploaded yet.</p>
         <RouterLink 

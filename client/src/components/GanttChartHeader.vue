@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 
 interface TimelineEvent {
   id: number
@@ -28,10 +28,19 @@ const dateRange = computed(() => {
   }
   
   const dates = props.events.map(e => new Date(e.date)).sort((a, b) => a.getTime() - b.getTime())
-  const start = dates[0]
-  const end = dates[dates.length - 1]
+  const startDate = dates[0]
+  const endDate = dates[dates.length - 1]
+  
+  if (!startDate || !endDate) {
+    const today = new Date()
+    const start = new Date(today.getFullYear(), today.getMonth(), 1)
+    const end = new Date(today.getFullYear(), today.getMonth() + 3, 0)
+    return { start, end }
+  }
   
   // Add padding
+  const start = new Date(startDate)
+  const end = new Date(endDate)
   start.setMonth(start.getMonth() - 1)
   end.setMonth(end.getMonth() + 1)
   
@@ -40,8 +49,11 @@ const dateRange = computed(() => {
 
 const months = computed(() => {
   const monthsList = []
-  const start = new Date(dateRange.value.start)
-  const end = new Date(dateRange.value.end)
+  const range = dateRange.value
+  if (!range.start || !range.end) return monthsList
+  
+  const start = new Date(range.start)
+  const end = new Date(range.end)
   
   let current = new Date(start.getFullYear(), start.getMonth(), 1)
   while (current <= end) {
@@ -54,8 +66,11 @@ const months = computed(() => {
 
 const daysInRange = computed(() => {
   const days = []
-  const start = new Date(dateRange.value.start)
-  const end = new Date(dateRange.value.end)
+  const range = dateRange.value
+  if (!range.start || !range.end) return days
+  
+  const start = new Date(range.start)
+  const end = new Date(range.end)
   
   let current = new Date(start)
   while (current <= end) {
@@ -111,7 +126,7 @@ const hasEvent = (date: Date) => {
         <div class="relative h-16 bg-gray-900">
           <!-- Week markers -->
           <div class="absolute inset-0 flex">
-            <div v-for="(day, index) in daysInRange" 
+            <div v-for="day in daysInRange" 
               :key="day.getTime()"
               :class="[
                 'border-r border-gray-700 flex-1 cursor-pointer hover:bg-gray-800 transition',
@@ -132,7 +147,9 @@ const hasEvent = (date: Date) => {
             <div v-for="event in events" 
               :key="event.id"
               :style="{
-                left: `${((new Date(event.date).getTime() - dateRange.start.getTime()) / (dateRange.end.getTime() - dateRange.start.getTime())) * 100}%`
+                left: dateRange.start && dateRange.end 
+                  ? `${((new Date(event.date).getTime() - dateRange.start.getTime()) / (dateRange.end.getTime() - dateRange.start.getTime())) * 100}%`
+                  : '0%'
               }"
               class="absolute top-2 w-3 h-3 bg-red-500 rounded-full border-2 border-white transform -translate-x-1/2 cursor-pointer hover:scale-125 transition"
               :title="`${event.title} - ${formatDate(new Date(event.date))}`"
@@ -140,7 +157,7 @@ const hasEvent = (date: Date) => {
           </div>
           
           <!-- Today indicator -->
-          <div v-if="daysInRange.some(isToday)"
+          <div v-if="daysInRange.some(isToday) && dateRange.start && dateRange.end"
             :style="{
               left: `${((new Date().getTime() - dateRange.start.getTime()) / (dateRange.end.getTime() - dateRange.start.getTime())) * 100}%`
             }"

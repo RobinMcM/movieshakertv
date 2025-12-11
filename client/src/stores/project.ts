@@ -95,7 +95,14 @@ export const useProjectStore = defineStore('project', {
     updateTimelineEvent(id: number, updates: Partial<TimelineEvent>) {
       const index = this.currentProject.timelineEvents.findIndex(e => e.id === id)
       if (index !== -1) {
-        this.currentProject.timelineEvents[index] = { ...this.currentProject.timelineEvents[index], ...updates }
+        const existing = this.currentProject.timelineEvents[index]
+        this.currentProject.timelineEvents[index] = { 
+          id: existing.id,
+          date: updates.date ?? existing.date,
+          title: updates.title ?? existing.title,
+          comments: updates.comments ?? existing.comments,
+          duration: updates.duration ?? existing.duration
+        }
       }
     },
     deleteTimelineEvent(id: number) {
@@ -108,7 +115,13 @@ export const useProjectStore = defineStore('project', {
     updateActor(id: number, updates: Partial<Actor>) {
       const index = this.currentProject.actors.findIndex(a => a.id === id)
       if (index !== -1) {
-        this.currentProject.actors[index] = { ...this.currentProject.actors[index], ...updates }
+        const existing = this.currentProject.actors[index]
+        this.currentProject.actors[index] = {
+          id: existing.id,
+          characterName: updates.characterName ?? existing.characterName,
+          actorName: updates.actorName ?? existing.actorName,
+          description: updates.description ?? existing.description
+        }
       }
     },
     deleteActor(id: number) {
@@ -121,7 +134,13 @@ export const useProjectStore = defineStore('project', {
     updateLocation(id: number, updates: Partial<Location>) {
       const index = this.currentProject.locations.findIndex(l => l.id === id)
       if (index !== -1) {
-        this.currentProject.locations[index] = { ...this.currentProject.locations[index], ...updates }
+        const existing = this.currentProject.locations[index]
+        this.currentProject.locations[index] = {
+          id: existing.id,
+          name: updates.name ?? existing.name,
+          address: updates.address ?? existing.address,
+          description: updates.description ?? existing.description
+        }
       }
     },
     deleteLocation(id: number) {
@@ -134,7 +153,13 @@ export const useProjectStore = defineStore('project', {
     updateTeamMember(id: number, updates: Partial<TeamMember>) {
       const index = this.currentProject.teamMembers.findIndex(m => m.id === id)
       if (index !== -1) {
-        this.currentProject.teamMembers[index] = { ...this.currentProject.teamMembers[index], ...updates }
+        const existing = this.currentProject.teamMembers[index]
+        this.currentProject.teamMembers[index] = {
+          id: existing.id,
+          name: updates.name ?? existing.name,
+          role: updates.role ?? existing.role,
+          description: updates.description ?? existing.description
+        }
       }
     },
     deleteTeamMember(id: number) {
@@ -147,7 +172,14 @@ export const useProjectStore = defineStore('project', {
     updateSponsor(id: number, updates: Partial<Sponsor>) {
       const index = this.currentProject.sponsors.findIndex(s => s.id === id)
       if (index !== -1) {
-        this.currentProject.sponsors[index] = { ...this.currentProject.sponsors[index], ...updates }
+        const existing = this.currentProject.sponsors[index]
+        this.currentProject.sponsors[index] = {
+          id: existing.id,
+          name: updates.name ?? existing.name,
+          company: updates.company ?? existing.company,
+          amount: updates.amount ?? existing.amount,
+          description: updates.description ?? existing.description
+        }
       }
     },
     deleteSponsor(id: number) {
