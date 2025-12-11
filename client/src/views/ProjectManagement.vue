@@ -9,6 +9,7 @@ import FileUpload from '../components/FileUpload.vue'
 import TextUpload from '../components/TextUpload.vue'
 import GanttChartHeader from '../components/GanttChartHeader.vue'
 import TimelineEventList from '../components/TimelineEventList.vue'
+import ActorList from '../components/ActorList.vue'
 
 const auth = useAuthStore()
 const router = useRouter()
@@ -51,6 +52,18 @@ const handleTimelineEventDelete = (id: number) => {
 const handleDateSelected = (date: string) => {
   // Optional: Could auto-fill date in add form or highlight date
   console.log('Date selected:', date)
+}
+
+const handleActorAdd = (actor: Omit<import('../stores/project').Actor, 'id'>) => {
+  projectStore.addActor(actor)
+}
+
+const handleActorUpdate = (id: number, updates: Partial<import('../stores/project').Actor>) => {
+  projectStore.updateActor(id, updates)
+}
+
+const handleActorDelete = (id: number) => {
+  projectStore.deleteActor(id)
 }
 </script>
 
@@ -405,14 +418,12 @@ const handleDateSelected = (date: string) => {
 
         <!-- Tab 3: Proposed Actors -->
         <div v-show="activeTab === 'actors'" class="bg-cinema-gray p-6 rounded-lg border border-gray-800">
-          <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
-            <Users class="text-red-500 w-6 h-6" />
-            Proposed Actors
-          </h3>
-          <p class="text-gray-400 mb-4">Actor management coming soon...</p>
-          <div class="text-gray-500 text-sm">
-            This section will allow you to add and manage proposed actors for your film project.
-          </div>
+          <ActorList
+            :actors="project.actors"
+            @add="handleActorAdd"
+            @update="handleActorUpdate"
+            @delete="handleActorDelete"
+          />
         </div>
 
         <!-- Tab 4: Proposed Locations -->

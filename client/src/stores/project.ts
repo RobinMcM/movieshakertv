@@ -8,6 +8,13 @@ export interface TimelineEvent {
   duration?: number
 }
 
+export interface Actor {
+  id: number
+  characterName: string
+  actorName: string
+  description: string
+}
+
 interface Project {
   id: number
   title: string
@@ -20,6 +27,7 @@ interface Project {
   treatment: string | null
   trailer: string | null
   timelineEvents: TimelineEvent[]
+  actors: Actor[]
 }
 
 export const useProjectStore = defineStore('project', {
@@ -36,7 +44,8 @@ export const useProjectStore = defineStore('project', {
       elevatorPitch: '',
       treatment: null as string | null,
       trailer: null as string | null,
-      timelineEvents: [] as TimelineEvent[]
+      timelineEvents: [] as TimelineEvent[],
+      actors: [] as Actor[]
     } as Project
   }),
   actions: {
@@ -63,6 +72,19 @@ export const useProjectStore = defineStore('project', {
     },
     deleteTimelineEvent(id: number) {
       this.currentProject.timelineEvents = this.currentProject.timelineEvents.filter(e => e.id !== id)
+    },
+    addActor(actor: Omit<Actor, 'id'>) {
+      const newId = Math.max(0, ...this.currentProject.actors.map(a => a.id)) + 1
+      this.currentProject.actors.push({ ...actor, id: newId })
+    },
+    updateActor(id: number, updates: Partial<Actor>) {
+      const index = this.currentProject.actors.findIndex(a => a.id === id)
+      if (index !== -1) {
+        this.currentProject.actors[index] = { ...this.currentProject.actors[index], ...updates }
+      }
+    },
+    deleteActor(id: number) {
+      this.currentProject.actors = this.currentProject.actors.filter(a => a.id !== id)
     }
   },
   getters: {
