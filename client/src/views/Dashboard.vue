@@ -2,6 +2,7 @@
 import { RouterLink } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 import { useRouter } from 'vue-router'
+import { Plus } from 'lucide-vue-next'
 
 const auth = useAuthStore()
 const router = useRouter()
@@ -48,12 +49,27 @@ const handleLogout = async () => {
     </aside>
     
     <main class="flex-1 bg-cinema-black p-8 overflow-y-auto">
-      <h1 class="text-3xl font-bold mb-8">Dashboard</h1>
+      <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold">Dashboard</h1>
+        <RouterLink 
+          to="/dashboard/project"
+          class="flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded font-semibold transition shadow-lg shadow-red-900/20"
+        >
+          <Plus class="w-5 h-5" />
+          New Project
+        </RouterLink>
+      </div>
       
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="bg-cinema-gray p-6 rounded-lg border border-gray-800">
           <h3 class="text-lg font-bold mb-2">My Projects</h3>
-          <p class="text-gray-400 text-sm">No active projects assigned.</p>
+          <p class="text-gray-400 text-sm mb-4">No active projects assigned.</p>
+          <RouterLink 
+            to="/dashboard/project"
+            class="inline-block text-red-500 hover:text-red-400 text-sm font-medium"
+          >
+            Create your first project →
+          </RouterLink>
         </div>
       </div>
     </main>
