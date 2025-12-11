@@ -130,9 +130,6 @@ const handleSponsorDelete = (id: number) => {
         >
           Project Management
         </RouterLink>
-        <div class="block py-2 px-4 rounded text-gray-500 cursor-not-allowed">
-          Timeline (Coming Soon)
-        </div>
       </nav>
       
       <div class="mt-auto pt-6 border-t border-gray-800">
