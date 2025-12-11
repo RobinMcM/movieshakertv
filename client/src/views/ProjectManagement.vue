@@ -4,7 +4,7 @@ import { RouterLink } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 import { useRouter } from 'vue-router'
 import { useProjectStore } from '../stores/project'
-import { FileText, Video, File, CheckCircle, X, Calendar, Users, MapPin, UserCheck } from 'lucide-vue-next'
+import { FileText, Video, File, CheckCircle, X, Calendar, Users, MapPin, UserCheck, DollarSign } from 'lucide-vue-next'
 import FileUpload from '../components/FileUpload.vue'
 import TextUpload from '../components/TextUpload.vue'
 
@@ -200,6 +200,20 @@ const removeFile = (type: string) => {
                 Proposed Team
               </div>
             </button>
+            <button
+              @click="activeTab = 'budget'"
+              :class="[
+                'py-4 px-1 border-b-2 font-medium text-sm transition',
+                activeTab === 'budget'
+                  ? 'border-red-500 text-red-500'
+                  : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'
+              ]"
+            >
+              <div class="flex items-center gap-2">
+                <DollarSign class="w-4 h-4" />
+                Budget
+              </div>
+            </button>
           </nav>
         </div>
 
@@ -389,6 +403,18 @@ const removeFile = (type: string) => {
           <p class="text-gray-400 mb-4">Team management coming soon...</p>
           <div class="text-gray-500 text-sm">
             This section will allow you to add and manage your proposed production team members.
+          </div>
+        </div>
+
+        <!-- Tab 6: Budget -->
+        <div v-show="activeTab === 'budget'" class="bg-cinema-gray p-6 rounded-lg border border-gray-800">
+          <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+            <DollarSign class="text-red-500 w-6 h-6" />
+            Budget
+          </h3>
+          <p class="text-gray-400 mb-4">Budget management coming soon...</p>
+          <div class="text-gray-500 text-sm">
+            This section will allow you to create and manage detailed budget breakdowns for your film project.
           </div>
         </div>
       </div>
