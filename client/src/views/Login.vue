@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 import axios from 'axios'
+import { API_URL } from '../config'
 
 const email = ref('')
 const password = ref('')
@@ -14,7 +15,7 @@ const authStore = useAuthStore()
 const handleSubmit = async () => {
   try {
     const endpoint = isRegister.value ? '/api/register' : '/api/login'
-    const res = await axios.post(`http://localhost:3000${endpoint}`, {
+    const res = await axios.post(`${API_URL}${endpoint}`, {
       email: email.value,
       password: password.value
     }, { withCredentials: true })

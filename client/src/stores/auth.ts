@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import { API_URL } from '../config'
 
 interface User {
   id: number
@@ -15,7 +16,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async checkAuth() {
       try {
-        const res = await axios.get('http://localhost:3000/api/me', { withCredentials: true })
+        const res = await axios.get(`${API_URL}/api/me`, { withCredentials: true })
         this.user = res.data.user
       } catch (err) {
         this.user = null
@@ -27,7 +28,7 @@ export const useAuthStore = defineStore('auth', {
       this.user = userData
     },
     async logout() {
-        await axios.post('http://localhost:3000/api/logout', {}, { withCredentials: true })
+        await axios.post(`${API_URL}/api/logout`, {}, { withCredentials: true })
         this.user = null
     }
   }
