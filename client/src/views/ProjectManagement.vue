@@ -269,7 +269,7 @@ const handleTeamMemberDelete = (id: number) => {
             >
               <div class="flex items-center gap-2">
                 <DollarSign class="w-4 h-4" />
-                Budget
+                Sponsors
               </div>
             </button>
           </nav>
@@ -472,15 +472,15 @@ const handleTeamMemberDelete = (id: number) => {
           />
         </div>
 
-        <!-- Tab 6: Budget -->
+        <!-- Tab 6: Sponsors -->
         <div v-show="activeTab === 'budget'" class="bg-cinema-gray p-6 rounded-lg border border-gray-800">
           <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
             <DollarSign class="text-red-500 w-6 h-6" />
-            Budget
+            Sponsors
           </h3>
-          <p class="text-gray-400 mb-4">Budget management coming soon...</p>
+          <p class="text-gray-400 mb-4">Sponsor management coming soon...</p>
           <div class="text-gray-500 text-sm">
-            This section will allow you to create and manage detailed budget breakdowns for your film project.
+            This section will allow you to add and manage sponsors for your film project.
           </div>
         </div>
       </div>
