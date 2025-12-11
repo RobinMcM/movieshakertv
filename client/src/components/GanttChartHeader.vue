@@ -47,8 +47,8 @@ const dateRange = computed(() => {
   return { start, end }
 })
 
-const months = computed(() => {
-  const monthsList = []
+const months = computed((): Date[] => {
+  const monthsList: Date[] = []
   const range = dateRange.value
   if (!range.start || !range.end) return monthsList
   
@@ -64,8 +64,8 @@ const months = computed(() => {
   return monthsList
 })
 
-const daysInRange = computed(() => {
-  const days = []
+const daysInRange = computed((): Date[] => {
+  const days: Date[] = []
   const range = dateRange.value
   if (!range.start || !range.end) return days
   
@@ -83,7 +83,9 @@ const daysInRange = computed(() => {
 
 const handleDateClick = (date: Date) => {
   const dateStr = date.toISOString().split('T')[0]
-  emit('dateSelected', dateStr)
+  if (dateStr) {
+    emit('dateSelected', dateStr)
+  }
 }
 
 const formatDate = (date: Date) => {
