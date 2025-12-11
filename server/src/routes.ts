@@ -1,0 +1,61 @@
+import { Router } from "express";
+import passport from "passport";
+import bcrypt from "bcryptjs";
+import { db } from "./db";
+import { users, projects, timelineEvents, documents } from "./db/schema";
+import { eq } from "drizzle-orm";
+
+export const router = Router();
+
+// Auth Routes
+router.post("/register", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const [newUser] = await db
+      .insert(users)
+      .values({
+        email,
+        passwordHash: hashedPassword,
+      })
+      .returning();
+    
+    req.login(newUser, (err) => {
+      if (err) return res.status(500).json({ error: err.message });
+      return res.json({ user: newUser });
+    });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.post("/login", passport.authenticate("local"), (req, res) => {
+  res.json({ user: req.user });
+});
+
+router.post("/logout", (req, res) => {
+  req.logout(() => {
+    res.json({ message: "Logged out" });
+  });
+});
+
+router.get("/me", (req, res) => {
+  if (req.isAuthenticated()) {
+    res.json({ user: req.user });
+  } else {
+    res.status(401).json({ message: "Not authenticated" });
+  }
+});
+
+// Basic Project Routes (Stub)
+router.get("/projects", async (req, res) => {
+    // In production, filter by user access
+    const allProjects = await db.select().from(projects);
+    res.json(allProjects);
+});
+
+router.get("/projects/:id/timeline", async (req, res) => {
+    const events = await db.select().from(timelineEvents).where(eq(timelineEvents.projectId, parseInt(req.params.id)));
+    res.json(events);
+});
+
