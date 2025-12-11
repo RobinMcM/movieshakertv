@@ -13,12 +13,13 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Serve static files from the Vue app
-// In production, the dist folder will be at ../client/dist relative to server/dist
-const clientDistPath = path.resolve(__dirname, "../client/dist");
+// Path resolution: from server/dist/index.js, go up to root, then into client/dist
+const clientDistPath = path.resolve(process.cwd(), "client/dist");
 app.use(express.static(clientDistPath));
 
+// CORS: In production, we're serving from same origin, so allow all or specific origin
 app.use(cors({
-  origin: process.env.CLIENT_URL || true, // Allow same origin when serving static files
+  origin: process.env.CLIENT_URL || (process.env.NODE_ENV === "production" ? true : "http://localhost:5173"),
   credentials: true,
 }));
 app.use(express.json());
