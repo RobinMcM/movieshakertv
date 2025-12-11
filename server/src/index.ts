@@ -3,6 +3,7 @@ import session from "express-session";
 import passport from "passport";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
 import { setupAuth } from "./auth";
 import { router } from "./routes";
 
@@ -11,8 +12,13 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Serve static files from the Vue app
+// In production, the dist folder will be at ../client/dist relative to server/dist
+const clientDistPath = path.resolve(__dirname, "../client/dist");
+app.use(express.static(clientDistPath));
+
 app.use(cors({
-  origin: process.env.CLIENT_URL || "http://localhost:5173",
+  origin: process.env.CLIENT_URL || true, // Allow same origin when serving static files
   credentials: true,
 }));
 app.use(express.json());
@@ -34,9 +40,13 @@ setupAuth(app);
 
 app.use("/api", router);
 
-// Root route to guide user
-app.get("/", (req, res) => {
-  res.send("MovieShaker.TV API Server is running. Please access the frontend at <a href='http://localhost:5173'>http://localhost:5173</a>");
+// The "catchall" handler: for any request that doesn't match an API route, send back Vue's index.html file.
+app.get("*", (req, res) => {
+  // Don't serve index.html for API routes
+  if (req.path.startsWith("/api")) {
+    return res.status(404).json({ error: "API route not found" });
+  }
+  res.sendFile(path.join(clientDistPath, "index.html"));
 });
 
 app.listen(port, () => {
