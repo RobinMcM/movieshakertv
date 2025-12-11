@@ -1,34 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <!-- Film Camera - Maximized -->
+  <!-- White background -->
+  <rect width="100" height="100" fill="#ffffff"/>
+  
+  <!-- Red Clapperboard - Maximized -->
   <g transform="translate(50, 50)">
-    <!-- Main camera body -->
-    <rect x="-42" y="-25" width="84" height="50" fill="#1f2937" stroke="#fbbf24" stroke-width="2.5" rx="5"/>
+    <!-- Main board -->
+    <rect x="-42" y="-28" width="84" height="56" fill="#dc2626" stroke="#991b1b" stroke-width="1.5" rx="3"/>
     
-    <!-- Viewfinder bump on top -->
-    <rect x="-18" y="-33" width="36" height="12" fill="#111827" stroke="#fbbf24" stroke-width="2" rx="3"/>
+    <!-- Top section (hinge area) - darker red -->
+    <rect x="-42" y="-28" width="84" height="16" fill="#b91c1c" stroke="#991b1b" stroke-width="1"/>
     
-    <!-- Viewfinder window -->
-    <rect x="-15" y="-31" width="30" height="8" fill="#000000" rx="1.5"/>
+    <!-- Diagonal stripe - white -->
+    <line x1="-42" y1="-12" x2="42" y2="-28" stroke="#ffffff" stroke-width="3.5"/>
     
-    <!-- Lens -->
-    <circle cx="25" cy="0" r="22" fill="#111827" stroke="#fbbf24" stroke-width="3"/>
-    <circle cx="25" cy="0" r="17" fill="#000000"/>
-    <circle cx="25" cy="0" r="12" fill="#1f2937"/>
-    <circle cx="25" cy="0" r="7" fill="#000000"/>
+    <!-- Horizontal lines (slate lines) - white -->
+    <line x1="-38" y1="-5" x2="38" y2="-5" stroke="#ffffff" stroke-width="2" opacity="0.9"/>
+    <line x1="-38" y1="0" x2="38" y2="0" stroke="#ffffff" stroke-width="2" opacity="0.9"/>
+    <line x1="-38" y1="5" x2="38" y2="5" stroke="#ffffff" stroke-width="2" opacity="0.9"/>
+    <line x1="-38" y1="10" x2="38" y2="10" stroke="#ffffff" stroke-width="2" opacity="0.9"/>
+    <line x1="-38" y1="15" x2="38" y2="15" stroke="#ffffff" stroke-width="2" opacity="0.9"/>
+    <line x1="-38" y1="20" x2="38" y2="20" stroke="#ffffff" stroke-width="2" opacity="0.9"/>
     
-    <!-- Film reel on left side -->
-    <circle cx="-30" cy="0" r="10" fill="#111827" stroke="#fbbf24" stroke-width="2"/>
-    <circle cx="-30" cy="0" r="5" fill="#000000"/>
-    <line x1="-30" y1="-10" x2="-30" y2="-5" stroke="#fbbf24" stroke-width="1.5"/>
-    <line x1="-30" y1="10" x2="-30" y2="5" stroke="#fbbf24" stroke-width="1.5"/>
-    <line x1="-40" y1="0" x2="-35" y2="0" stroke="#fbbf24" stroke-width="1.5"/>
-    <line x1="-20" y1="0" x2="-25" y2="0" stroke="#fbbf24" stroke-width="1.5"/>
-    
-    <!-- Film strip coming from reel -->
-    <rect x="-20" y="-2.5" width="10" height="5" fill="#fbbf24" rx="1"/>
-    
-    <!-- Side grip/texture lines -->
-    <line x1="-42" y1="-12" x2="-42" y2="12" stroke="#fbbf24" stroke-width="1.5" opacity="0.6"/>
-    <line x1="-38" y1="-12" x2="-38" y2="12" stroke="#fbbf24" stroke-width="1.5" opacity="0.6"/>
+    <!-- Hinge circle - white -->
+    <circle cx="0" cy="-20" r="5" fill="#ffffff"/>
   </g>
 </svg>
