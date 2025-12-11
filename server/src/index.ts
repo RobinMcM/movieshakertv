@@ -45,12 +45,17 @@ app.use("/api", router);
 // The "catchall" handler: for any request that doesn't match an API route, send back Vue's index.html file.
 // Use app.use() with a function instead of app.get() with wildcard for Express 5 compatibility
 app.use((req, res, next) => {
-  // Don't serve index.html for API routes
+  // Skip if this is an API route (should have been handled above, but double-check)
   if (req.path.startsWith("/api")) {
-    return next(); // Let the API router handle it (or return 404 if not found)
+    return res.status(404).json({ error: "API route not found" });
   }
-  // For all other routes, serve the Vue app's index.html
-  res.sendFile(path.join(clientDistPath, "index.html"));
+  // For all other routes, serve the Vue app's index.html (for client-side routing)
+  res.sendFile(path.join(clientDistPath, "index.html"), (err) => {
+    if (err) {
+      console.error("Error sending index.html:", err);
+      res.status(500).send("Error loading application");
+    }
+  });
 });
 
 app.listen(port, () => {
