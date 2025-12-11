@@ -42,10 +42,11 @@ setupAuth(app);
 
 app.use("/api", router);
 
-// The "catchall" handler: for any GET request that doesn't match an API route, send back Vue's index.html file.
+// The "catchall" handler: for any GET request that doesn't match an API route or static files, send back Vue's index.html file.
 // Express 5 compatibility: use a function-based route matcher
-app.get(/^(?!\/api).*$/, (req, res) => {
-  // For all non-API routes, serve the Vue app's index.html (for client-side routing)
+// Only catch routes that don't start with /api and don't have file extensions (for static assets)
+app.get(/^(?!\/api)(?!.*\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)).*$/, (req, res) => {
+  // For all non-API, non-static-file routes, serve the Vue app's index.html (for client-side routing)
   res.sendFile(path.join(clientDistPath, "index.html"), (err) => {
     if (err) {
       console.error("Error sending index.html:", err);
