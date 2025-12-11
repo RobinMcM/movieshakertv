@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 import { useRouter } from 'vue-router'
 import { useProjectStore } from '../stores/project'
-import { FileText, Video, File, CheckCircle, X } from 'lucide-vue-next'
+import { FileText, Video, File, CheckCircle, X, Calendar, Users, MapPin, UserCheck } from 'lucide-vue-next'
 import FileUpload from '../components/FileUpload.vue'
 import TextUpload from '../components/TextUpload.vue'
 
@@ -12,6 +13,7 @@ const router = useRouter()
 const projectStore = useProjectStore()
 
 const project = projectStore.currentProject
+const activeTab = ref('materials')
 
 const handleLogout = async () => {
   await auth.logout()
@@ -92,6 +94,85 @@ const removeFile = (type: string) => {
           />
         </div>
 
+        <!-- Tabs -->
+        <div class="border-b border-gray-800 mb-6">
+          <nav class="flex space-x-8">
+            <button
+              @click="activeTab = 'materials'"
+              :class="[
+                'py-4 px-1 border-b-2 font-medium text-sm transition',
+                activeTab === 'materials'
+                  ? 'border-red-500 text-red-500'
+                  : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'
+              ]"
+            >
+              <div class="flex items-center gap-2">
+                <FileText class="w-4 h-4" />
+                Project Materials
+              </div>
+            </button>
+            <button
+              @click="activeTab = 'timeline'"
+              :class="[
+                'py-4 px-1 border-b-2 font-medium text-sm transition',
+                activeTab === 'timeline'
+                  ? 'border-red-500 text-red-500'
+                  : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'
+              ]"
+            >
+              <div class="flex items-center gap-2">
+                <Calendar class="w-4 h-4" />
+                Proposed Timeline
+              </div>
+            </button>
+            <button
+              @click="activeTab = 'actors'"
+              :class="[
+                'py-4 px-1 border-b-2 font-medium text-sm transition',
+                activeTab === 'actors'
+                  ? 'border-red-500 text-red-500'
+                  : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'
+              ]"
+            >
+              <div class="flex items-center gap-2">
+                <Users class="w-4 h-4" />
+                Proposed Actors
+              </div>
+            </button>
+            <button
+              @click="activeTab = 'locations'"
+              :class="[
+                'py-4 px-1 border-b-2 font-medium text-sm transition',
+                activeTab === 'locations'
+                  ? 'border-red-500 text-red-500'
+                  : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'
+              ]"
+            >
+              <div class="flex items-center gap-2">
+                <MapPin class="w-4 h-4" />
+                Proposed Locations
+              </div>
+            </button>
+            <button
+              @click="activeTab = 'team'"
+              :class="[
+                'py-4 px-1 border-b-2 font-medium text-sm transition',
+                activeTab === 'team'
+                  ? 'border-red-500 text-red-500'
+                  : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'
+              ]"
+            >
+              <div class="flex items-center gap-2">
+                <UserCheck class="w-4 h-4" />
+                Proposed Team
+              </div>
+            </button>
+          </nav>
+        </div>
+
+        <!-- Tab Content -->
+        <!-- Tab 1: Project Materials -->
+        <div v-show="activeTab === 'materials'">
         <!-- Upload Sections -->
         <div class="space-y-6">
           <!-- Pitch Deck -->
@@ -226,6 +307,55 @@ const removeFile = (type: string) => {
               <CheckCircle class="w-4 h-4" />
               Trailer uploaded
             </div>
+          </div>
+        </div>
+        </div>
+
+        <!-- Tab 2: Proposed Timeline -->
+        <div v-show="activeTab === 'timeline'" class="bg-cinema-gray p-6 rounded-lg border border-gray-800">
+          <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+            <Calendar class="text-red-500 w-6 h-6" />
+            Proposed Timeline
+          </h3>
+          <p class="text-gray-400 mb-4">Timeline management coming soon...</p>
+          <div class="text-gray-500 text-sm">
+            This section will allow you to create and manage your production timeline with key dates and milestones.
+          </div>
+        </div>
+
+        <!-- Tab 3: Proposed Actors -->
+        <div v-show="activeTab === 'actors'" class="bg-cinema-gray p-6 rounded-lg border border-gray-800">
+          <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+            <Users class="text-red-500 w-6 h-6" />
+            Proposed Actors
+          </h3>
+          <p class="text-gray-400 mb-4">Actor management coming soon...</p>
+          <div class="text-gray-500 text-sm">
+            This section will allow you to add and manage proposed actors for your film project.
+          </div>
+        </div>
+
+        <!-- Tab 4: Proposed Locations -->
+        <div v-show="activeTab === 'locations'" class="bg-cinema-gray p-6 rounded-lg border border-gray-800">
+          <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+            <MapPin class="text-red-500 w-6 h-6" />
+            Proposed Locations
+          </h3>
+          <p class="text-gray-400 mb-4">Location management coming soon...</p>
+          <div class="text-gray-500 text-sm">
+            This section will allow you to add and manage proposed filming locations for your project.
+          </div>
+        </div>
+
+        <!-- Tab 5: Proposed Team -->
+        <div v-show="activeTab === 'team'" class="bg-cinema-gray p-6 rounded-lg border border-gray-800">
+          <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+            <UserCheck class="text-red-500 w-6 h-6" />
+            Proposed Team
+          </h3>
+          <p class="text-gray-400 mb-4">Team management coming soon...</p>
+          <div class="text-gray-500 text-sm">
+            This section will allow you to add and manage your proposed production team members.
           </div>
         </div>
       </div>
