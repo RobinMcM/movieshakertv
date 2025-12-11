@@ -15,6 +15,7 @@ const port = process.env.PORT || 3000;
 // Serve static files from the Vue app
 // Path resolution: from server/dist/index.js, go up to root, then into client/dist
 const clientDistPath = path.resolve(process.cwd(), "client/dist");
+console.log("Serving static files from:", clientDistPath);
 app.use(express.static(clientDistPath));
 
 // CORS: In production, we're serving from same origin, so allow all or specific origin
