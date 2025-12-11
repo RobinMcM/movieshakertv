@@ -55,7 +55,18 @@ router.get("/projects", async (req, res) => {
 });
 
 router.get("/projects/:id/timeline", async (req, res) => {
-    const events = await db.select().from(timelineEvents).where(eq(timelineEvents.projectId, parseInt(req.params.id)));
-    res.json(events);
+    const projectId = parseInt(req.params.id, 10);
+    
+    // Validate that the ID is a valid integer
+    if (isNaN(projectId) || projectId <= 0) {
+        return res.status(400).json({ error: "Invalid project ID. Must be a positive integer." });
+    }
+    
+    try {
+        const events = await db.select().from(timelineEvents).where(eq(timelineEvents.projectId, projectId));
+        res.json(events);
+    } catch (error: any) {
+        res.status(500).json({ error: error.message });
+    }
 });
 

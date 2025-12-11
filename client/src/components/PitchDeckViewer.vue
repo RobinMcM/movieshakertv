@@ -29,10 +29,11 @@ const handleLoaded = (pdf: any) => {
         >
           Prev
         </button>
-        <span class="text-gray-400">Page {{ page }}</span>
+        <span class="text-gray-400">Page {{ page }}<span v-if="pageCount > 0"> of {{ pageCount }}</span></span>
         <button 
+          :disabled="pageCount > 0 && page >= pageCount" 
           @click="page++"
-          class="px-4 py-2 bg-red-600 rounded hover:bg-red-700 transition"
+          class="px-4 py-2 bg-red-600 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-red-700 transition"
         >
           Next
         </button>
