@@ -82,16 +82,49 @@ const removeFile = (type: string) => {
         <h1 class="text-3xl font-bold mb-2">Project Management</h1>
         <p class="text-gray-400 mb-8">Upload and manage your film pre-production materials</p>
         
-        <!-- Project Title -->
+        <!-- Project Information -->
         <div class="bg-cinema-gray p-6 rounded-lg border border-gray-800 mb-6">
-          <label class="block text-sm font-medium text-gray-300 mb-2">Project Title</label>
-          <input 
-            :value="project.title"
-            @input="(e) => projectStore.updateProject({ title: (e.target as HTMLInputElement).value })"
-            type="text"
-            class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-white focus:outline-none focus:border-red-500"
-            placeholder="Enter project title"
-          />
+          <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-2">Project Title</label>
+              <input 
+                :value="project.title"
+                @input="(e) => projectStore.updateProject({ title: (e.target as HTMLInputElement).value })"
+                type="text"
+                class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-white focus:outline-none focus:border-red-500"
+                placeholder="Enter project title"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-2">Writer</label>
+              <input 
+                :value="project.writer"
+                @input="(e) => projectStore.updateProject({ writer: (e.target as HTMLInputElement).value })"
+                type="text"
+                class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-white focus:outline-none focus:border-red-500"
+                placeholder="Writer name"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-2">Budget</label>
+              <input 
+                :value="project.budget"
+                @input="(e) => projectStore.updateProject({ budget: (e.target as HTMLInputElement).value })"
+                type="text"
+                class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-white focus:outline-none focus:border-red-500"
+                placeholder="Budget amount"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-2">Date</label>
+              <input 
+                :value="project.date"
+                @input="(e) => projectStore.updateProject({ date: (e.target as HTMLInputElement).value })"
+                type="date"
+                class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-white focus:outline-none focus:border-red-500"
+              />
+            </div>
+          </div>
         </div>
 
         <!-- Tabs -->

@@ -3,6 +3,9 @@ import { defineStore } from 'pinia'
 interface Project {
   id: number
   title: string
+  writer: string
+  budget: string
+  date: string
   pitchDeck: string | null
   script: string | null
   elevatorPitch: string
@@ -16,6 +19,9 @@ export const useProjectStore = defineStore('project', {
     currentProject: {
       id: 1,
       title: 'Untitled Film Project',
+      writer: '',
+      budget: '',
+      date: '',
       pitchDeck: null as string | null,
       script: null as string | null,
       elevatorPitch: '',
