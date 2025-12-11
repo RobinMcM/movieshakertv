@@ -10,6 +10,8 @@ import TextUpload from '../components/TextUpload.vue'
 import GanttChartHeader from '../components/GanttChartHeader.vue'
 import TimelineEventList from '../components/TimelineEventList.vue'
 import ActorList from '../components/ActorList.vue'
+import LocationList from '../components/LocationList.vue'
+import TeamList from '../components/TeamList.vue'
 
 const auth = useAuthStore()
 const router = useRouter()
@@ -64,6 +66,30 @@ const handleActorUpdate = (id: number, updates: Partial<import('../stores/projec
 
 const handleActorDelete = (id: number) => {
   projectStore.deleteActor(id)
+}
+
+const handleLocationAdd = (location: Omit<import('../stores/project').Location, 'id'>) => {
+  projectStore.addLocation(location)
+}
+
+const handleLocationUpdate = (id: number, updates: Partial<import('../stores/project').Location>) => {
+  projectStore.updateLocation(id, updates)
+}
+
+const handleLocationDelete = (id: number) => {
+  projectStore.deleteLocation(id)
+}
+
+const handleTeamMemberAdd = (member: Omit<import('../stores/project').TeamMember, 'id'>) => {
+  projectStore.addTeamMember(member)
+}
+
+const handleTeamMemberUpdate = (id: number, updates: Partial<import('../stores/project').TeamMember>) => {
+  projectStore.updateTeamMember(id, updates)
+}
+
+const handleTeamMemberDelete = (id: number) => {
+  projectStore.deleteTeamMember(id)
 }
 </script>
 
@@ -428,26 +454,22 @@ const handleActorDelete = (id: number) => {
 
         <!-- Tab 4: Proposed Locations -->
         <div v-show="activeTab === 'locations'" class="bg-cinema-gray p-6 rounded-lg border border-gray-800">
-          <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
-            <MapPin class="text-red-500 w-6 h-6" />
-            Proposed Locations
-          </h3>
-          <p class="text-gray-400 mb-4">Location management coming soon...</p>
-          <div class="text-gray-500 text-sm">
-            This section will allow you to add and manage proposed filming locations for your project.
-          </div>
+          <LocationList
+            :locations="project.locations"
+            @add="handleLocationAdd"
+            @update="handleLocationUpdate"
+            @delete="handleLocationDelete"
+          />
         </div>
 
         <!-- Tab 5: Proposed Team -->
         <div v-show="activeTab === 'team'" class="bg-cinema-gray p-6 rounded-lg border border-gray-800">
-          <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
-            <UserCheck class="text-red-500 w-6 h-6" />
-            Proposed Team
-          </h3>
-          <p class="text-gray-400 mb-4">Team management coming soon...</p>
-          <div class="text-gray-500 text-sm">
-            This section will allow you to add and manage your proposed production team members.
-          </div>
+          <TeamList
+            :team-members="project.teamMembers"
+            @add="handleTeamMemberAdd"
+            @update="handleTeamMemberUpdate"
+            @delete="handleTeamMemberDelete"
+          />
         </div>
 
         <!-- Tab 6: Budget -->

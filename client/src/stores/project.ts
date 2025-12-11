@@ -15,6 +15,20 @@ export interface Actor {
   description: string
 }
 
+export interface Location {
+  id: number
+  name: string
+  address: string
+  description: string
+}
+
+export interface TeamMember {
+  id: number
+  name: string
+  role: string
+  description: string
+}
+
 interface Project {
   id: number
   title: string
@@ -28,6 +42,8 @@ interface Project {
   trailer: string | null
   timelineEvents: TimelineEvent[]
   actors: Actor[]
+  locations: Location[]
+  teamMembers: TeamMember[]
 }
 
 export const useProjectStore = defineStore('project', {
@@ -45,7 +61,9 @@ export const useProjectStore = defineStore('project', {
       treatment: null as string | null,
       trailer: null as string | null,
       timelineEvents: [] as TimelineEvent[],
-      actors: [] as Actor[]
+      actors: [] as Actor[],
+      locations: [] as Location[],
+      teamMembers: [] as TeamMember[]
     } as Project
   }),
   actions: {
@@ -85,6 +103,32 @@ export const useProjectStore = defineStore('project', {
     },
     deleteActor(id: number) {
       this.currentProject.actors = this.currentProject.actors.filter(a => a.id !== id)
+    },
+    addLocation(location: Omit<Location, 'id'>) {
+      const newId = Math.max(0, ...this.currentProject.locations.map(l => l.id)) + 1
+      this.currentProject.locations.push({ ...location, id: newId })
+    },
+    updateLocation(id: number, updates: Partial<Location>) {
+      const index = this.currentProject.locations.findIndex(l => l.id === id)
+      if (index !== -1) {
+        this.currentProject.locations[index] = { ...this.currentProject.locations[index], ...updates }
+      }
+    },
+    deleteLocation(id: number) {
+      this.currentProject.locations = this.currentProject.locations.filter(l => l.id !== id)
+    },
+    addTeamMember(member: Omit<TeamMember, 'id'>) {
+      const newId = Math.max(0, ...this.currentProject.teamMembers.map(m => m.id)) + 1
+      this.currentProject.teamMembers.push({ ...member, id: newId })
+    },
+    updateTeamMember(id: number, updates: Partial<TeamMember>) {
+      const index = this.currentProject.teamMembers.findIndex(m => m.id === id)
+      if (index !== -1) {
+        this.currentProject.teamMembers[index] = { ...this.currentProject.teamMembers[index], ...updates }
+      }
+    },
+    deleteTeamMember(id: number) {
+      this.currentProject.teamMembers = this.currentProject.teamMembers.filter(m => m.id !== id)
     }
   },
   getters: {
