@@ -22,7 +22,7 @@ const publishedProjects = computed(() => projectStore.getPublishedProjects())
         to="/login" 
         class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded font-semibold transition shadow-lg shadow-red-900/20"
       >
-        Crew Login
+        Login
       </RouterLink>
     </nav>
 

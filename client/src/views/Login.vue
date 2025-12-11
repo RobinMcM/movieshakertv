@@ -32,7 +32,7 @@ const handleSubmit = async () => {
   <div class="min-h-screen flex items-center justify-center bg-cinema-black">
     <div class="bg-cinema-gray p-8 rounded-lg w-full max-w-md border border-gray-800">
       <h2 class="text-3xl font-bold mb-6 text-center text-red-500">
-        {{ isRegister ? 'Join Crew' : 'Crew Login' }}
+        {{ isRegister ? 'Join Crew' : 'Login' }}
       </h2>
       
       <div v-if="error" class="bg-red-900/50 text-red-200 p-3 rounded mb-4 text-sm">
