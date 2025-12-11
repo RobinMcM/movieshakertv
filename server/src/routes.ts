@@ -13,8 +13,24 @@ router.post("/register", async (req, res) => {
   res.status(403).json({ error: "Registration disabled for demo. Use ms@mail.com / movie to login." });
 });
 
-router.post("/login", passport.authenticate("local"), (req, res) => {
-  res.json({ user: req.user });
+router.post("/login", (req, res, next) => {
+  passport.authenticate("local", (err: any, user: any, info: any) => {
+    if (err) {
+      console.error("Login error:", err);
+      return res.status(500).json({ error: "Internal server error during authentication" });
+    }
+    if (!user) {
+      return res.status(401).json({ error: info?.message || "Incorrect email or password." });
+    }
+    // Use req.login (lowercase) which is the Express method, not req.logIn
+    req.login(user, (loginErr: any) => {
+      if (loginErr) {
+        console.error("Login session error:", loginErr);
+        return res.status(500).json({ error: "Failed to establish session" });
+      }
+      return res.json({ user: req.user });
+    });
+  })(req, res, next);
 });
 
 router.post("/logout", (req, res) => {
