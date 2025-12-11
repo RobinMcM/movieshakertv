@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useRoute, useRouter, RouterLink } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useProjectStore } from '../stores/project'
 import PitchDeckViewer from '../components/PitchDeckViewer.vue'
 import { ArrowLeft, FileText, Video, Calendar, Users, MapPin, UserCheck, DollarSign } from 'lucide-vue-next'
