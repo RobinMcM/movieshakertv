@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="48" fill="#dc2626"/>
+  
+  <!-- Film reel icon -->
+  <g transform="translate(50, 50)">
+    <!-- Outer circle -->
+    <circle cx="0" cy="0" r="30" fill="#1f2937" stroke="#fbbf24" stroke-width="2"/>
+    
+    <!-- Inner circle (hole) -->
+    <circle cx="0" cy="0" r="12" fill="#111827"/>
+    
+    <!-- Film reel spokes -->
+    <line x1="0" y1="-30" x2="0" y2="-12" stroke="#fbbf24" stroke-width="2"/>
+    <line x1="0" y1="30" x2="0" y2="12" stroke="#fbbf24" stroke-width="2"/>
+    <line x1="-30" y1="0" x2="-12" y2="0" stroke="#fbbf24" stroke-width="2"/>
+    <line x1="30" y1="0" x2="12" y2="0" stroke="#fbbf24" stroke-width="2"/>
+    
+    <!-- Film strip notches -->
+    <rect x="-35" y="-5" width="8" height="10" fill="#fbbf24" rx="1"/>
+    <rect x="-35" y="5" width="8" height="10" fill="#fbbf24" rx="1"/>
+    <rect x="27" y="-5" width="8" height="10" fill="#fbbf24" rx="1"/>
+    <rect x="27" y="5" width="8" height="10" fill="#fbbf24" rx="1"/>
+  </g>
+</svg>
+
