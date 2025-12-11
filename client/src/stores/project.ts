@@ -29,6 +29,14 @@ export interface TeamMember {
   description: string
 }
 
+export interface Sponsor {
+  id: number
+  name: string
+  company: string
+  amount: string
+  description: string
+}
+
 interface Project {
   id: number
   title: string
@@ -44,6 +52,7 @@ interface Project {
   actors: Actor[]
   locations: Location[]
   teamMembers: TeamMember[]
+  sponsors: Sponsor[]
 }
 
 export const useProjectStore = defineStore('project', {
@@ -63,7 +72,8 @@ export const useProjectStore = defineStore('project', {
       timelineEvents: [] as TimelineEvent[],
       actors: [] as Actor[],
       locations: [] as Location[],
-      teamMembers: [] as TeamMember[]
+      teamMembers: [] as TeamMember[],
+      sponsors: [] as Sponsor[]
     } as Project
   }),
   actions: {
@@ -129,6 +139,19 @@ export const useProjectStore = defineStore('project', {
     },
     deleteTeamMember(id: number) {
       this.currentProject.teamMembers = this.currentProject.teamMembers.filter(m => m.id !== id)
+    },
+    addSponsor(sponsor: Omit<Sponsor, 'id'>) {
+      const newId = Math.max(0, ...this.currentProject.sponsors.map(s => s.id)) + 1
+      this.currentProject.sponsors.push({ ...sponsor, id: newId })
+    },
+    updateSponsor(id: number, updates: Partial<Sponsor>) {
+      const index = this.currentProject.sponsors.findIndex(s => s.id === id)
+      if (index !== -1) {
+        this.currentProject.sponsors[index] = { ...this.currentProject.sponsors[index], ...updates }
+      }
+    },
+    deleteSponsor(id: number) {
+      this.currentProject.sponsors = this.currentProject.sponsors.filter(s => s.id !== id)
     }
   },
   getters: {

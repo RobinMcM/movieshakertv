@@ -12,6 +12,7 @@ import TimelineEventList from '../components/TimelineEventList.vue'
 import ActorList from '../components/ActorList.vue'
 import LocationList from '../components/LocationList.vue'
 import TeamList from '../components/TeamList.vue'
+import SponsorList from '../components/SponsorList.vue'
 
 const auth = useAuthStore()
 const router = useRouter()
@@ -90,6 +91,18 @@ const handleTeamMemberUpdate = (id: number, updates: Partial<import('../stores/p
 
 const handleTeamMemberDelete = (id: number) => {
   projectStore.deleteTeamMember(id)
+}
+
+const handleSponsorAdd = (sponsor: Omit<import('../stores/project').Sponsor, 'id'>) => {
+  projectStore.addSponsor(sponsor)
+}
+
+const handleSponsorUpdate = (id: number, updates: Partial<import('../stores/project').Sponsor>) => {
+  projectStore.updateSponsor(id, updates)
+}
+
+const handleSponsorDelete = (id: number) => {
+  projectStore.deleteSponsor(id)
 }
 </script>
 
@@ -474,14 +487,12 @@ const handleTeamMemberDelete = (id: number) => {
 
         <!-- Tab 6: Sponsors -->
         <div v-show="activeTab === 'budget'" class="bg-cinema-gray p-6 rounded-lg border border-gray-800">
-          <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
-            <DollarSign class="text-red-500 w-6 h-6" />
-            Sponsors
-          </h3>
-          <p class="text-gray-400 mb-4">Sponsor management coming soon...</p>
-          <div class="text-gray-500 text-sm">
-            This section will allow you to add and manage sponsors for your film project.
-          </div>
+          <SponsorList
+            :sponsors="project.sponsors"
+            @add="handleSponsorAdd"
+            @update="handleSponsorUpdate"
+            @delete="handleSponsorDelete"
+          />
         </div>
       </div>
     </main>
