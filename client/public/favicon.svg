@@ -2,14 +2,14 @@
   <!-- White background -->
   <rect width="100" height="100" fill="#ffffff"/>
   
-  <!-- MvS text in red -->
+  <!-- MvS text in dark blue -->
   <text 
     x="50" 
     y="65" 
     font-family="Arial, sans-serif" 
     font-size="45" 
     font-weight="normal" 
-    fill="#dc2626" 
+    fill="#1e3a8a" 
     text-anchor="middle"
     dominant-baseline="middle"
   >
