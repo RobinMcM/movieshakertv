@@ -42,14 +42,10 @@ setupAuth(app);
 
 app.use("/api", router);
 
-// The "catchall" handler: for any request that doesn't match an API route, send back Vue's index.html file.
-// Use app.use() with a function instead of app.get() with wildcard for Express 5 compatibility
-app.use((req, res, next) => {
-  // Skip if this is an API route (should have been handled above, but double-check)
-  if (req.path.startsWith("/api")) {
-    return res.status(404).json({ error: "API route not found" });
-  }
-  // For all other routes, serve the Vue app's index.html (for client-side routing)
+// The "catchall" handler: for any GET request that doesn't match an API route, send back Vue's index.html file.
+// Express 5 compatibility: use a function-based route matcher
+app.get(/^(?!\/api).*$/, (req, res) => {
+  // For all non-API routes, serve the Vue app's index.html (for client-side routing)
   res.sendFile(path.join(clientDistPath, "index.html"), (err) => {
     if (err) {
       console.error("Error sending index.html:", err);
