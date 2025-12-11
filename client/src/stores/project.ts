@@ -37,7 +37,7 @@ export interface Sponsor {
   description: string
 }
 
-interface Project {
+export interface Project {
   id: number
   title: string
   writer: string
@@ -48,6 +48,7 @@ interface Project {
   elevatorPitch: string
   treatment: string | null
   trailer: string | null
+  published: boolean
   timelineEvents: TimelineEvent[]
   actors: Actor[]
   locations: Location[]
@@ -57,7 +58,64 @@ interface Project {
 
 export const useProjectStore = defineStore('project', {
   state: () => ({
-    // Mock project data - will be replaced with API calls later
+    // All projects - will be replaced with API calls later
+    projects: [
+      {
+        id: 1,
+        title: 'The Midnight Runner',
+        writer: 'Jane Smith',
+        budget: '$2.5M',
+        date: '2024-06-15',
+        pitchDeck: null as string | null,
+        script: null as string | null,
+        elevatorPitch: 'A thrilling chase through the neon-lit streets of Tokyo as a courier races against time to deliver a package that could change everything.',
+        treatment: null as string | null,
+        trailer: null as string | null,
+        published: true,
+        timelineEvents: [] as TimelineEvent[],
+        actors: [] as Actor[],
+        locations: [] as Location[],
+        teamMembers: [] as TeamMember[],
+        sponsors: [] as Sponsor[]
+      },
+      {
+        id: 2,
+        title: 'Echoes of Tomorrow',
+        writer: 'Michael Chen',
+        budget: '$5M',
+        date: '2024-08-20',
+        pitchDeck: null as string | null,
+        script: null as string | null,
+        elevatorPitch: 'A sci-fi drama exploring the consequences of time travel when a scientist discovers messages from her future self.',
+        treatment: null as string | null,
+        trailer: null as string | null,
+        published: true,
+        timelineEvents: [] as TimelineEvent[],
+        actors: [] as Actor[],
+        locations: [] as Location[],
+        teamMembers: [] as TeamMember[],
+        sponsors: [] as Sponsor[]
+      },
+      {
+        id: 3,
+        title: 'Desert Dreams',
+        writer: 'Sarah Johnson',
+        budget: '$1.8M',
+        date: '2024-09-10',
+        pitchDeck: null as string | null,
+        script: null as string | null,
+        elevatorPitch: 'A coming-of-age story about a young artist who finds inspiration in the vast landscapes of the American Southwest.',
+        treatment: null as string | null,
+        trailer: null as string | null,
+        published: false,
+        timelineEvents: [] as TimelineEvent[],
+        actors: [] as Actor[],
+        locations: [] as Location[],
+        teamMembers: [] as TeamMember[],
+        sponsors: [] as Sponsor[]
+      }
+    ] as Project[],
+    // Current project being edited (for ProjectManagement page)
     currentProject: {
       id: 1,
       title: 'Untitled Film Project',
@@ -69,6 +127,7 @@ export const useProjectStore = defineStore('project', {
       elevatorPitch: '',
       treatment: null as string | null,
       trailer: null as string | null,
+      published: false,
       timelineEvents: [] as TimelineEvent[],
       actors: [] as Actor[],
       locations: [] as Location[],
@@ -184,10 +243,24 @@ export const useProjectStore = defineStore('project', {
     },
     deleteSponsor(id: number) {
       this.currentProject.sponsors = this.currentProject.sponsors.filter(s => s.id !== id)
+    },
+    // New actions for multiple projects
+    getPublishedProjects(): Project[] {
+      return this.projects.filter(p => p.published)
+    },
+    getProjectById(id: number): Project | undefined {
+      return this.projects.find(p => p.id === id)
+    },
+    setProjectPublished(id: number, published: boolean) {
+      const project = this.projects.find(p => p.id === id)
+      if (project) {
+        project.published = published
+      }
     }
   },
   getters: {
-    hasPitchDeck: (state) => state.currentProject.pitchDeck !== null
+    hasPitchDeck: (state) => state.currentProject.pitchDeck !== null,
+    publishedProjects: (state) => state.projects.filter(p => p.published)
   }
 })
 

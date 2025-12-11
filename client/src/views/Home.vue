@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-import PitchDeckViewer from '../components/PitchDeckViewer.vue'
+import { computed } from 'vue'
+import PitchDeckThumbnail from '../components/PitchDeckThumbnail.vue'
 import { Clapperboard, FileText, Lightbulb } from 'lucide-vue-next'
 import { useProjectStore } from '../stores/project'
 
 const projectStore = useProjectStore()
+const publishedProjects = computed(() => projectStore.getPublishedProjects())
 </script>
 
 <template>
@@ -37,12 +39,30 @@ const projectStore = useProjectStore()
     </section>
 
     <section class="mb-24">
-      <PitchDeckViewer :url="projectStore.currentProject.pitchDeck ?? undefined" />
-      <div v-if="!projectStore.currentProject.pitchDeck" class="text-center text-gray-500 mt-8">
-        <p>No pitch deck uploaded yet.</p>
+      <h2 class="text-3xl font-bold mb-8 text-center">Published Pitch Decks</h2>
+      <div v-if="publishedProjects.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <RouterLink
+          v-for="project in publishedProjects"
+          :key="project.id"
+          :to="`/pitch/${project.id}`"
+          class="bg-cinema-gray rounded-lg border border-gray-800 overflow-hidden hover:border-red-500 transition duration-300 hover:shadow-lg hover:shadow-red-900/20 group"
+        >
+          <PitchDeckThumbnail :url="project.pitchDeck" :title="project.title" />
+          <div class="p-4">
+            <h3 class="text-xl font-bold text-white group-hover:text-red-500 transition">
+              {{ project.title }}
+            </h3>
+            <p v-if="project.writer" class="text-sm text-gray-400 mt-1">
+              by {{ project.writer }}
+            </p>
+          </div>
+        </RouterLink>
+      </div>
+      <div v-else class="text-center text-gray-500 py-12 bg-cinema-gray rounded-lg border border-gray-800">
+        <p class="mb-4">No published pitch decks available yet.</p>
         <RouterLink 
           to="/login" 
-          class="text-red-500 hover:text-red-400 underline mt-2 inline-block"
+          class="text-red-500 hover:text-red-400 underline inline-block"
         >
           Login to upload
         </RouterLink>

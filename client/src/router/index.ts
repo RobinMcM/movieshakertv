@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Dashboard from '../views/Dashboard.vue'
 import ProjectManagement from '../views/ProjectManagement.vue'
+import PitchDetail from '../views/PitchDetail.vue'
 import { useAuthStore } from '../stores/auth'
 
 const router = createRouter({
@@ -10,6 +11,7 @@ const router = createRouter({
   routes: [
     { path: '/', component: Home },
     { path: '/login', component: Login },
+    { path: '/pitch/:id', component: PitchDetail },
     { 
       path: '/dashboard', 
       component: Dashboard,
