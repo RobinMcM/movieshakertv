@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "start": "vite preview --port 8080 --host",
     "preview": "vite preview"
   },
   "dependencies": {
