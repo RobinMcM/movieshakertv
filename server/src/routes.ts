@@ -8,25 +8,9 @@ import { eq } from "drizzle-orm";
 export const router = Router();
 
 // Auth Routes
+// Demo gatekeeper - registration disabled for demo
 router.post("/register", async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const [newUser] = await db
-      .insert(users)
-      .values({
-        email,
-        passwordHash: hashedPassword,
-      })
-      .returning();
-    
-    req.login(newUser, (err) => {
-      if (err) return res.status(500).json({ error: err.message });
-      return res.json({ user: newUser });
-    });
-  } catch (error: any) {
-    res.status(500).json({ error: error.message });
-  }
+  res.status(403).json({ error: "Registration disabled for demo. Use ms@mail.com / movie to login." });
 });
 
 router.post("/login", passport.authenticate("local"), (req, res) => {

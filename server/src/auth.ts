@@ -10,30 +10,21 @@ export function setupAuth(app: Express) {
   app.use(passport.initialize());
   app.use(passport.session());
 
+  // Demo gatekeeper - simple hardcoded credentials for demo purposes
   passport.use(
     new LocalStrategy(
       { usernameField: "email" },
       async (email, password, done) => {
-        try {
-          const [user] = await db
-            .select()
-            .from(users)
-            .where(eq(users.email, email))
-            .limit(1);
-
-          if (!user) {
-            return done(null, false, { message: "Incorrect email." });
-          }
-
-          const isMatch = await bcrypt.compare(password, user.passwordHash);
-          if (!isMatch) {
-            return done(null, false, { message: "Incorrect password." });
-          }
-
-          return done(null, user);
-        } catch (err) {
-          return done(err);
+        // Demo credentials - bypass database
+        if (email === "ms@mail.com" && password === "movie") {
+          return done(null, {
+            id: 1,
+            email: "ms@mail.com",
+            role: "admin"
+          });
         }
+        
+        return done(null, false, { message: "Incorrect email or password." });
       }
     )
   );
@@ -42,17 +33,14 @@ export function setupAuth(app: Express) {
     done(null, user.id);
   });
 
+  // Demo gatekeeper - return hardcoded user for demo
   passport.deserializeUser(async (id: number, done) => {
-    try {
-      const [user] = await db
-        .select()
-        .from(users)
-        .where(eq(users.id, id))
-        .limit(1);
-      done(null, user);
-    } catch (err) {
-      done(err);
-    }
+    // For demo, just return the test user
+    done(null, {
+      id: 1,
+      email: "ms@mail.com",
+      role: "admin"
+    });
   });
 }
 
