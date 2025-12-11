@@ -17,9 +17,9 @@ const handleLogout = async () => {
   <div class="min-h-screen flex">
     <aside class="w-64 bg-cinema-gray border-r border-gray-800 p-6 flex flex-col">
       <div class="mb-10">
-        <h2 class="text-2xl font-bold tracking-tighter">
+        <RouterLink to="/" class="text-2xl font-bold tracking-tighter hover:opacity-80 transition">
           Movie<span class="text-red-600">Shaker</span>
-        </h2>
+        </RouterLink>
       </div>
       
       <nav class="space-y-2 flex-1">
