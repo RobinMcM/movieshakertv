@@ -5,9 +5,9 @@
   <!-- MvS text in red -->
   <text 
     x="50" 
-    y="70" 
+    y="65" 
     font-family="Arial, sans-serif" 
-    font-size="60" 
+    font-size="45" 
     font-weight="normal" 
     fill="#dc2626" 
     text-anchor="middle"
