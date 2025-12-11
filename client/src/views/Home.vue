@@ -2,6 +2,9 @@
 import { RouterLink } from 'vue-router'
 import PitchDeckViewer from '../components/PitchDeckViewer.vue'
 import { Clapperboard, FileText, Lightbulb } from 'lucide-vue-next'
+import { useProjectStore } from '../stores/project'
+
+const projectStore = useProjectStore()
 </script>
 
 <template>
@@ -34,7 +37,16 @@ import { Clapperboard, FileText, Lightbulb } from 'lucide-vue-next'
     </section>
 
     <section class="mb-24">
-      <PitchDeckViewer />
+      <PitchDeckViewer :url="projectStore.currentProject.pitchDeck" />
+      <div v-if="!projectStore.currentProject.pitchDeck" class="text-center text-gray-500 mt-8">
+        <p>No pitch deck uploaded yet.</p>
+        <RouterLink 
+          to="/login" 
+          class="text-red-500 hover:text-red-400 underline mt-2 inline-block"
+        >
+          Login to upload
+        </RouterLink>
+      </div>
     </section>
 
     <section class="grid md:grid-cols-3 gap-8 mb-16">
